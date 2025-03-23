@@ -1,28 +1,39 @@
-## 📄 `README.md`
+# 🚀 Expo Auth Route Template – Starter for Authentication & Routing
 
-# Expo Auth Route Template
+A clean, minimal, and developer-friendly **Expo starter template** with **authentication**, **file-based routing**, and **dark/light mode support** – powered by [`expo-router`](https://expo.github.io/router/).
 
-A clean and minimal starter template for building Expo apps with authentication, routing, and dark/light mode support — powered by `expo-router`.
+> ✅ Perfect for building modern **React Native apps** with Expo, fast onboarding, and a modular structure.
 
-> 🧪 Repository: [PsydoV2/ExpoAuthRouteTemplate](https://github.com/PsydoV2/ExpoAuthRouteTemplate)
+📦 GitHub Repository: [PsydoV2/ExpoAuthRouteTemplate](https://github.com/PsydoV2/ExpoAuthRouteTemplate)
 
 ---
 
 ## ✨ Features
 
-- 🔐 Simple authentication flow with context
+- 🔐 Easy-to-extend authentication flow with React context
 - 🧭 File-based routing using `expo-router`
-- 🌗 Light & Dark mode support
-- 📱 Responsive layout with SafeArea handling
-- 🎨 Customizable theming (neutral black/white/gray base)
-- 🧪 Type-safe routing via `typedRoutes`
-- 🚀 Ready for EAS Build & OTA Updates
+- 🌗 Built-in light & dark theme support
+- 📱 Mobile-ready layout with SafeArea handling
+- 🎨 Theming system with neutral palette (black/white/gray)
+- 🔄 Type-safe navigation via `typedRoutes`
+- 🚀 EAS Build & OTA Update ready
+
+---
+
+## 📦 Use Cases
+
+This template is ideal for:
+
+- Creating new **Expo apps with login/signup**
+- Rapid prototyping with `expo-router`
+- Learning authentication & layout separation in React Native
+- Boilerplate for apps with light/dark mode and navigation
 
 ---
 
 ## 🧑‍💻 Getting Started
 
-### 1. Clone the repo
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/PsydoV2/ExpoAuthRouteTemplate.git
@@ -35,7 +46,7 @@ cd ExpoAuthRouteTemplate
 npm install
 ```
 
-### 3. Start the app
+### 3. Run the app
 
 ```bash
 npx expo start
@@ -43,86 +54,42 @@ npx expo start
 
 ---
 
-## 📁 File Structure
+## 🧠 How It Works
+
+- Users without a session (`useSession()`) are redirected to `/login`
+- Calling `signIn()` simulates login and navigates to the main tab layout
+- Clean folder structure: `(auth)` routes are separated from `(tabs)`
+- Uses `Themed` components for dynamic light/dark theme switching
+
+---
+
+## 📁 Project Structure
+
+Organized for clarity and scalability:
 
 ```
-|   .gitignore
-|   app.json
-|   babel.config.js
-|   filetree.txt
-|   package-lock.json
-|   package.json
-|   README.md
-|   tsconfig.json
-|
-+---.expo
-|   |   devices.json
-|   |   README.md
-|   |
-|   \---types
-|           router.d.ts
-|
-+---app
-|   |   +html.tsx
-|   |   +not-found.tsx
-|   |   AuthScreen.tsx
-|   |   _layout.tsx
-|   |
-|   \---(auth)
-|       |   modal.tsx
-|       |   _layout.tsx
-|       |
-|       \---(tabs)
-|               index.tsx
-|               two.tsx
-|               _layout.tsx
-|
-+---assets
-|   +---fonts
-|   |       SpaceMono-Regular.ttf
-|   \---images
-|           adaptive-icon.png
-|           favicon.png
-|           icon.png
-|           splash.png
-|
-+---components
-|   |   EditScreenInfo.tsx
-|   |   ExternalLink.tsx
-|   |   StyledText.tsx
-|   |   Themed.tsx
-|   |   useClientOnlyValue.ts
-|   |   useClientOnlyValue.web.ts
-|   |   useColorScheme.ts
-|   |   useColorScheme.web.ts
-|   \---__tests__
-|           StyledText-test.js
-|
-+---constants
-|       Colors.ts
-|
-\---src
-    +---context
-    |       ctx.tsx
-    \---hooks
-            useStorageState.ts
+ExpoAuthRouteTemplate/
+├── app/                 # Route-based views
+│   ├── (auth)/          # Auth-related screens
+│   └── (tabs)/          # Main tab layout
+├── components/          # UI components
+├── constants/           # Theme & color definitions
+├── src/                 # Context & hooks
+└── assets/              # Fonts and images
 ```
 
 ---
 
-## 🧠 How it works
+## 🏷️ Keywords
 
-- When `useSession()` has no session, users are redirected to `/login`.
-- After calling `signIn()`, a fake session is set and the user lands in the main tab view.
-- Uses layout-based routing to separate `(auth)` from main app `(tabs)`.
-- Built-in support for dark/light themes via `Themed` components.
+`expo`, `react native`, `auth`, `expo-router`, `starter template`, `light dark mode`, `login`, `routing`, `react native boilerplate`
 
 ---
 
 ## 📜 License
 
-MIT — free to use, share and modify.
+MIT — Free to use, share and modify.
 
 ---
 
-## 🧱 Built with ❤️ by [Psydo](https://github.com/PsydoV2)
+## 🙌 Created by [Psydo](https://github.com/PsydoV2)
