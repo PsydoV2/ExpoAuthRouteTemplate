@@ -11,7 +11,7 @@ export default function Login() {
 
   const handleLogin = () => {
     signIn();
-    router.replace("/index");
+    router.replace("/");
   };
 
   return (
