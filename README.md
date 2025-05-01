@@ -93,3 +93,5 @@ MIT — Free to use, share and modify.
 ---
 
 ## 🙌 Created by [Psydo](https://github.com/PsydoV2)
+
+[![Donation](https://sfalter.de/FileHosting/Donation.png)](https://streamlabs.com/psydoooo/tip)
