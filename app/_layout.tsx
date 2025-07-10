@@ -5,7 +5,11 @@ import { useEffect } from "react";
 import { SessionProvider } from "@/src/context/ctx";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useColorScheme } from "react-native";
-import { ThemeProvider } from "@react-navigation/native";
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
 import Colors from "../constants/Colors"; // dein Farbschema
 
 export {
@@ -53,17 +57,7 @@ function RootLayoutNav() {
     <SafeAreaProvider>
       <SessionProvider>
         <ThemeProvider
-          value={{
-            dark: colorScheme === "dark",
-            colors: {
-              background: themeColors.background,
-              card: themeColors.background,
-              text: themeColors.text,
-              border: "#333",
-              notification: themeColors.tint,
-              primary: themeColors.tint,
-            },
-          }}
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
           <Slot />
         </ThemeProvider>
