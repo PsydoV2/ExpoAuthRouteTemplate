@@ -1,19 +1,30 @@
 import { Redirect, Stack } from "expo-router";
+import { ActivityIndicator, View } from "react-native";
 import { useSession } from "@/src/context/ctx";
-import { Text } from "@/components/Themed";
 import { useColorScheme } from "react-native";
 import Colors from "@/constants/Colors";
 
-export default function AppLayout() {
-  const { session, isLoading } = useSession();
-  const colorScheme = useColorScheme();
-  const theme = Colors[colorScheme ?? "light"];
+export default function AuthGroupLayout() {
+  const { isAuthenticated, isLoading } = useSession();
+  const scheme = useColorScheme();
+  const theme = Colors[scheme ?? "light"];
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: theme.background,
+        }}
+      >
+        <ActivityIndicator />
+      </View>
+    );
   }
 
-  if (!session) {
+  if (!isAuthenticated) {
     return <Redirect href="/AuthScreen" />;
   }
 
@@ -26,7 +37,10 @@ export default function AppLayout() {
       }}
     >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+      <Stack.Screen
+        name="modal"
+        options={{ presentation: "modal", title: "Info" }}
+      />
     </Stack>
   );
 }

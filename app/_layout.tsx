@@ -1,8 +1,8 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import * as SystemUI from "expo-system-ui";
 import { useEffect } from "react";
-import { SessionProvider } from "@/src/context/ctx";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useColorScheme } from "react-native";
 import {
@@ -10,18 +10,16 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import Colors from "../constants/Colors"; // dein Farbschema
+import { SessionProvider } from "@/src/context/ctx";
+import { Slot } from "expo-router";
+import Colors from "@/constants/Colors";
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from "expo-router";
+export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
   initialRouteName: "AuthScreen",
 };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -29,35 +27,28 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
+  const scheme = useColorScheme();
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
-    if (error) throw error;
+    if (error) console.error(error);
   }, [error]);
 
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
+      const bg =
+        scheme === "dark" ? Colors.dark.background : Colors.light.background;
+      SystemUI.setBackgroundColorAsync(bg).finally(() =>
+        SplashScreen.hideAsync()
+      );
     }
-  }, [loaded]);
+  }, [loaded, scheme]);
 
-  if (!loaded) {
-    return null;
-  }
-
-  return <RootLayoutNav />;
-}
-import { Slot } from "expo-router";
-
-function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  if (!loaded) return null;
 
   return (
     <SafeAreaProvider>
       <SessionProvider>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
+        <ThemeProvider value={scheme === "dark" ? DarkTheme : DefaultTheme}>
           <Slot />
         </ThemeProvider>
       </SessionProvider>

@@ -1,45 +1,23 @@
-import { Button, StyleSheet } from "react-native";
-
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import { useSession } from "@/src/context/ctx";
+import { Button } from "react-native";
 
-export default function TabOneScreen() {
-  const { signOut, session } = useSession();
+export default function Home() {
+  const { signOut } = useSession();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <Text>Welcome, {session}</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="app/(auth)/(tabs)/index.tsx" />
-
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text style={{ fontSize: 20, fontWeight: "700", marginBottom: 18 }}>
+        Home Screen
+      </Text>
+      <EditScreenInfo path="app/(auth)/(tabs)/index.tsx"></EditScreenInfo>
       <Button
-        title="Sign Out"
+        title="Sign out"
         onPress={() => {
           signOut();
         }}
-      />
+      ></Button>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});

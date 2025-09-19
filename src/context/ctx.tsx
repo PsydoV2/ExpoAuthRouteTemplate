@@ -1,49 +1,50 @@
-import React from "react";
+import React, { createContext, useCallback, useContext, useMemo } from "react";
 import { useStorageState } from "../hooks/useStorageState";
 
-const AuthContext = React.createContext<{
-  signIn: () => void;
-  signOut: () => void;
-  session?: string | null;
+const SESSION_KEY = "session";
+type Session = string | null;
+
+type AuthContextValue = {
+  isAuthenticated: boolean;
+  session: Session;
   isLoading: boolean;
-}>({
-  signIn: () => null,
-  signOut: () => null,
-  session: null,
-  isLoading: false,
-});
+  signIn: (token: string) => Promise<void>;
+  signOut: () => Promise<void>;
+};
 
-// This hook can be used to access the user info.
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+
 export function useSession() {
-  const value = React.useContext(AuthContext);
-  if (process.env.NODE_ENV !== "production") {
-    if (!value) {
-      throw new Error("useSession must be wrapped in a <SessionProvider />");
-    }
-  }
-
-  return value;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useSession must be used inside <SessionProvider>");
+  return ctx;
 }
 
-export function SessionProvider(props: React.PropsWithChildren) {
-  const [[isLoading, session], setSession] = useStorageState("session");
-  return (
-    <AuthContext.Provider
-      value={{
-        signIn: () => {
-          // Add your login logic here
-          // For example purposes, we'll just set a fake session in storage
-          //This likely would be a JWT token or other session data
-          setSession("Psydo");
-        },
-        signOut: () => {
-          setSession(null);
-        },
-        session,
-        isLoading,
-      }}
-    >
-      {props.children}
-    </AuthContext.Provider>
+export function SessionProvider({ children }: React.PropsWithChildren) {
+  const [[isLoading, session], setSession] =
+    useStorageState<Session>(SESSION_KEY);
+
+  const signIn = useCallback(
+    async (token: string) => {
+      setSession(token);
+    },
+    [setSession]
   );
+
+  const signOut = useCallback(async () => {
+    setSession(null);
+  }, [setSession]);
+
+  const value = useMemo(
+    () => ({
+      isAuthenticated: !!session,
+      session,
+      isLoading,
+      signIn,
+      signOut,
+    }),
+    [session, isLoading, signIn, signOut]
+  );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

@@ -1,11 +1,8 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 
-import { ExternalLink } from "./ExternalLink";
 import { MonoText } from "./StyledText";
 import { Text, View } from "./Themed";
-
-import Colors from "@/constants/Colors";
 
 export default function EditScreenInfo({ path }: { path: string }) {
   return (
@@ -24,7 +21,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
           darkColor="rgba(255,255,255,0.05)"
           lightColor="rgba(0,0,0,0.05)"
         >
-          <MonoText>{path}</MonoText>
+          <Text>{path}</Text>
         </View>
 
         <Text

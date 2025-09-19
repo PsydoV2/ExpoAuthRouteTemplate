@@ -1,92 +1,49 @@
-import { Button, StyleSheet, TextInput, useColorScheme } from "react-native";
-import { Text, View } from "@/components/Themed";
+import { Button, ActivityIndicator } from "react-native";
 import { useSession } from "@/src/context/ctx";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
+import { Text, View } from "@/components/Themed";
+import EditScreenInfo from "@/components/EditScreenInfo";
 
-export default function Login() {
-  const { signIn } = useSession();
-  const colorScheme = useColorScheme();
+export default function AuthScreen() {
+  const { isAuthenticated, isLoading, signIn, signOut } = useSession();
 
-  const isDark = colorScheme === "dark";
+  // Während Storage hydriert
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
-  const handleLogin = () => {
-    signIn();
-    router.replace("/");
-  };
+  // Eingeloggt? Nie auf AuthScreen bleiben → sofort weiter
+  if (isAuthenticated) {
+    return <Redirect href="/(auth)/(tabs)" />;
+  }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome back</Text>
-      <Text style={[styles.paragraph, { color: isDark ? "#aaa" : "#555" }]}>
-        This template gives you a ready-to-use structure for authentication and
-        routing. Use it as a starting point and build your own app on top of it.
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 12,
+      }}
+    >
+      <Text style={{ fontSize: 20, fontWeight: "700", marginBottom: 18 }}>
+        Auth Screen
       </Text>
-
-      <TextInput
-        placeholder="Email"
-        placeholderTextColor={isDark ? "#aaa" : "#888"}
-        style={[
-          styles.input,
-          {
-            backgroundColor: isDark ? "#111" : "#fff",
-            borderColor: isDark ? "#444" : "#ccc",
-            color: isDark ? "#eee" : "#000",
-          },
-        ]}
-        keyboardType="email-address"
-        autoCapitalize="none"
+      <EditScreenInfo path="app/AuthScreen.tsx"></EditScreenInfo>
+      <Button
+        title="Sign in"
+        onPress={async () => {
+          await signIn("demo-token");
+          // Nach erfolgreichem Login explizit in den (auth)-Bereich bzw. Tabs wechseln
+          router.replace("/(auth)/(tabs)");
+        }}
       />
-      <TextInput
-        placeholder="Password"
-        placeholderTextColor={isDark ? "#aaa" : "#888"}
-        style={[
-          styles.input,
-          {
-            backgroundColor: isDark ? "#111" : "#fff",
-            borderColor: isDark ? "#444" : "#ccc",
-            color: isDark ? "#eee" : "#000",
-          },
-        ]}
-        secureTextEntry
-      />
-
-      <View style={styles.button}>
-        <Button
-          title="Login"
-          onPress={handleLogin}
-          color={isDark ? "#ddd" : "#444"}
-        />
-      </View>
+      {/* Optional: zum Testen eines „falschen“ Zustands */}
+      {/* <Button title="Force sign out" onPress={() => signOut()} /> */}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 24,
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 12,
-  },
-  paragraph: {
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 24,
-  },
-  input: {
-    borderWidth: 1,
-    padding: 12,
-    borderRadius: 6,
-    marginBottom: 16,
-  },
-  button: {
-    marginTop: 8,
-    borderRadius: 6,
-    overflow: "hidden",
-  },
-});
