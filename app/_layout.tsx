@@ -51,7 +51,6 @@ import { Slot } from "expo-router";
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const themeColors = Colors[colorScheme ?? "light"];
 
   return (
     <SafeAreaProvider>
