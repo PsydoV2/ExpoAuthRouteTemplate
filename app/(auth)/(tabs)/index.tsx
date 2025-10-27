@@ -1,10 +1,12 @@
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
-import { useSession } from "@/src/context/ctx";
+import { useSession } from "@/src/context/AuthContext";
+import { useToast } from "@/src/context/ToastProvider";
 import { Button } from "react-native";
 
 export default function Home() {
   const { signOut } = useSession();
+  const { showToast } = useToast();
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -16,6 +18,7 @@ export default function Home() {
         title="Sign out"
         onPress={() => {
           signOut();
+          showToast("Logged out!", "info");
         }}
       ></Button>
     </View>

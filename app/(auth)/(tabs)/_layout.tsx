@@ -2,7 +2,7 @@ import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
 import { Pressable } from "react-native";
-import Colors from "@/constants/Colors";
+import Colors from "@/constants/StyleVariables";
 import { useColorScheme } from "react-native";
 
 function TabBarIcon(props: {
@@ -19,11 +19,11 @@ export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerStyle: { backgroundColor: theme.background },
+        headerStyle: { backgroundColor: theme.bgDark },
         headerTintColor: theme.text,
-        tabBarStyle: { backgroundColor: theme.background },
-        tabBarActiveTintColor: theme.tint,
-        tabBarInactiveTintColor: theme.tabIconDefault,
+        tabBarStyle: { backgroundColor: theme.bgDark },
+        tabBarActiveTintColor: theme.primary,
+        tabBarInactiveTintColor: theme.borderMuted,
         tabBarLabelStyle: { fontSize: 12, fontWeight: "600" },
       }}
     >

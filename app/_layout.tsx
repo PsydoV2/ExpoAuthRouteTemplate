@@ -10,9 +10,11 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { SessionProvider } from "@/src/context/ctx";
+import { SessionProvider } from "@/src/context/AuthContext";
 import { Slot } from "expo-router";
-import Colors from "@/constants/Colors";
+import Colors from "@/constants/StyleVariables";
+import { UserProvider } from "@/src/context/UserProvider";
+import { ToastProvider } from "@/src/context/ToastProvider";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -35,8 +37,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
-      const bg =
-        scheme === "dark" ? Colors.dark.background : Colors.light.background;
+      const bg = scheme === "dark" ? Colors.dark.bgDark : Colors.light.bgDark;
       SystemUI.setBackgroundColorAsync(bg).finally(() =>
         SplashScreen.hideAsync()
       );
@@ -47,11 +48,15 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <SessionProvider>
-        <ThemeProvider value={scheme === "dark" ? DarkTheme : DefaultTheme}>
-          <Slot />
-        </ThemeProvider>
-      </SessionProvider>
+      <UserProvider>
+        <SessionProvider>
+          <ToastProvider>
+            <ThemeProvider value={scheme === "dark" ? DarkTheme : DefaultTheme}>
+              <Slot />
+            </ThemeProvider>
+          </ToastProvider>
+        </SessionProvider>
+      </UserProvider>
     </SafeAreaProvider>
   );
 }
