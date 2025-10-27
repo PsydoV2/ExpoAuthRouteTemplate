@@ -1,33 +1,59 @@
 # 🚀 Expo Auth Route Template
 
-A clean and minimal **Expo starter template** with **authentication**, **file-based routing**, and **dark/light mode support** — powered by [`expo-router`](https://expo.github.io/router/).
+A modern, lightweight **Expo starter template** featuring **authentication**, **file-based routing**, and **fully themed components** — built with [`expo-router`](https://expo.github.io/router/) and TypeScript.
 
-> ✅ Ideal to kickstart modern React Native apps with clean structure, fast onboarding and built-in auth.
+> ⚡️ Ideal for kickstarting new React Native projects with clean structure, persistent auth, and ready-to-scale design patterns.
 
-📦 GitHub Repository: [PsydoV2/ExpoAuthRouteTemplate](https://github.com/PsydoV2/ExpoAuthRouteTemplate)
+📦 GitHub: [PsydoV2/ExpoAuthRouteTemplate](https://github.com/PsydoV2/ExpoAuthRouteTemplate)
 
 ---
 
 ## ✨ Features
 
-- 🔐 Simple authentication flow (React Context + AsyncStorage)
-- 🧭 File-based routing using `expo-router v6`
-- 🌗 Built-in dark & light mode with centralized color palette
-- ⚡ Splash screen & font loading ready
-- 📱 Mobile-friendly layout with SafeArea handling
-- 💻 TypeScript + strict mode + `@/...` path aliases
-- 🚀 Ready for EAS Build and OTA updates
+- 🔐 **Authentication Context** — centralized login state via React Context
+- 💾 **Persistent Login** — AsyncStorage-based session hydration
+- 🧭 **File-Based Routing** — clean folder structure with `(auth)` and `(tabs)` layouts
+- 🎨 **Dynamic Theming** — built-in dark & light mode with `Themed` wrapper components
+- 🪄 **Auto Navigation Redirects** — authenticated users skip login automatically
+- ⚡ **Expo Ready** — compatible with Expo SDK 54+ & EAS Build
+- 💻 **TypeScript + Strict Mode** — stable, scalable foundation
+- 🧱 **Custom UI Components** — centralized in `/components/Themed.tsx`
+- 📱 **Responsive Layout** — SafeArea handling & consistent spacing
+- 🧰 **Developer Experience** — path aliases (`@/`), ESLint, Prettier, hot reload
+- 🧩 **Extensible Architecture** — easily plug in APIs, state, or native modules
 
 ---
 
-## 📦 Use Cases
+## 🧠 Project Structure
 
-- Creating new **Expo apps with login / signup**
-- Learning `expo-router` + auth logic
-- Rapid prototyping with a clean structure
-- Boilerplate for production-ready apps
-
----
+```bash
+ExpoAuthRouteTemplate/
+├── app/
+│   ├── (auth)/           # Login & Auth routes
+│   │   └── index.tsx
+│   ├── (tabs)/           # Main app tabs after login
+│   │   ├── index.tsx
+│   │   └── profile.tsx
+│   ├── _layout.tsx       # Global router layout
+│   └── +not-found.tsx    # 404 fallback
+│
+├── src/
+│   ├── context/
+│   │   └── ctx.tsx       # Auth/session context
+│   ├── hooks/
+│   │   └── useSession.ts # Session logic hook
+│   └── utils/            # Helper utilities
+│
+├── components/
+│   ├── Themed.tsx        # Themed wrapper (auto dark/light)
+│   └── EditScreenInfo.tsx
+│
+├── constants/
+│   └── Colors.ts         # Centralized color palette
+│
+├── package.json
+└── tsconfig.json
+```
 
 ## 🧑‍💻 Getting Started
 
@@ -38,164 +64,52 @@ git clone https://github.com/PsydoV2/ExpoAuthRouteTemplate.git
 cd ExpoAuthRouteTemplate
 ```
 
-### 2. Install
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Run
+### 3. Run the app
 
 ```bash
 npx expo start
 ```
 
----
-
-## 🧰 Common Commands
-
-| Command                    | Description                          |
-| -------------------------- | ------------------------------------ |
-| `npm run start`            | Start Metro Bundler (development)    |
-| `npm run android`          | Start the app on Android emulator    |
-| `npm run ios`              | Start the app on iOS simulator       |
-| `npm run web`              | Start the app in the browser         |
-| `npm run test`             | Run unit tests with Jest             |
-| `npx expo install --check` | Check Expo SDK compatibility         |
-| `npx expo-doctor`          | Diagnose common project issues       |
-| `npx expo prebuild`        | Generate native iOS/Android projects |
-
-> 💡 Use `-c` with `npx expo start` to clear the Metro cache if you run into weird errors.
+> 💡 Tip: Press `r` to reload or `m` to open the Metro bundler menu.
 
 ---
 
-## ⚙️ Setup
+## 🧱 Tech Stack
 
-### 📝 app.json (default)
-
-All basic configuration lives in `app.json`.
-Edit fields like `name`, `slug`, `scheme`, `icon`, `splash`, `bundleIdentifier`, etc.
-
-Example:
-
-```jsonc
-{
-  "expo": {
-    "name": "MyApp",
-    "slug": "myapp",
-    "scheme": "myapp",
-    "icon": "./assets/images/icon.png",
-    "ios": { "bundleIdentifier": "com.example.myapp" },
-    "android": { "package": "com.example.myapp" }
-  }
-}
-```
-
-### 🌐 Environment Variables
-
-#### Option A — Public (recommended for frontend config)
-
-Use `.env`:
-
-```
-EXPO_PUBLIC_API_URL=https://api.example.com
-```
-
-Access in code:
-
-```ts
-const apiUrl = process.env.EXPO_PUBLIC_API_URL;
-```
-
-> Variables starting with `EXPO_PUBLIC_` are embedded into your bundle at build time.
-
-#### Option B — Private (for secrets)
-
-Add values to `extra` in `app.json`:
-
-```jsonc
-{
-  "expo": {
-    "extra": {
-      "apiUrl": "https://internal.example.com"
-    }
-  }
-}
-```
-
-Access with `expo-constants`:
-
-```ts
-import Constants from "expo-constants";
-const apiUrl = (Constants.expoConfig?.extra as any)?.apiUrl as string;
-```
-
-> Use EAS Secrets if you don’t want them stored in the repo.
+| Layer        | Technology                           |
+| ------------ | ------------------------------------ |
+| Framework    | **Expo SDK 54**                      |
+| Navigation   | **expo-router v6**                   |
+| Language     | **TypeScript**                       |
+| UI / Theme   | **React Native + Themed Components** |
+| State / Auth | **React Context + AsyncStorage**     |
+| Build        | **EAS Build**, OTA updates ready     |
+| Testing      | **Jest + jest-expo**                 |
 
 ---
 
-## 🧠 How It Works
+## 🧭 Roadmap
 
-- `SessionProvider` manages `session` state in AsyncStorage
-- While `isLoading`, the app shows a splash/loading state
-- No session → user stays on `/AuthScreen`
-- After `signIn()` → user is navigated into `(auth)/(tabs)`
-- Global auth state is available via `useSession()`
-
----
-
-## 📁 Project Structure
-
-```
-ExpoAuthRouteTemplate/
-├── app/
-│   ├── +html.tsx
-│   ├── +not-found.tsx
-│   ├── AuthScreen.tsx
-│   ├── _layout.tsx
-│   └── (auth)/
-│       ├── _layout.tsx
-│       ├── modal.tsx
-│       └── (tabs)/
-│           ├── _layout.tsx
-│           ├── index.tsx
-│           └── two.tsx
-├── assets/
-│   ├── fonts/SpaceMono-Regular.ttf
-│   └── images/ (icon, splash, favicon, adaptive-icon)
-├── components/ (UI & hooks)
-├── constants/Colors.ts
-├── src/
-│   ├── context/ctx.tsx
-│   └── hooks/useStorageState.ts
-├── app.json
-├── package.json
-└── tsconfig.json
-```
+- [ ] Add signup screen example
+- [ ] Add toast/snackbar system
+- [ ] Integrate API auth demo
+- [ ] Add i18n example (multi-language)
 
 ---
 
-## 🏗️ Tech Stack
+## 🪪 License
 
-- [Expo SDK 54+](https://docs.expo.dev/)
-- [expo-router v6](https://expo.github.io/router/)
-- React Native 0.81
-- TypeScript (strict)
-- AsyncStorage
-- SafeAreaContext
+This project is licensed under the **MIT License**.
+See [`LICENSE`](./LICENSE) for details.
 
 ---
 
-## 📜 License
+### ❤️ Credits
 
-**MIT** — Free to use, modify and share.
-
----
-
-## 🙌 Created by [Psydo](https://github.com/PsydoV2)
-
-[![Donation](https://sfalter.de/FileHosting/Donation.png)](https://streamlabs.com/psydoooo/tip)
-
-```
-
-```
+Created with ☕ and Expo by [PsydoV2](https://github.com/PsydoV2)
