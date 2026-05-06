@@ -32,19 +32,22 @@ export default function RootLayout() {
   const scheme = useColorScheme();
 
   useEffect(() => {
-    if (error) console.error(error);
+    if (error) {
+      console.error(error);
+      SplashScreen.hideAsync().catch(console.error);
+    }
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
-      const bg = scheme === "dark" ? Colors.dark.bgDark : Colors.light.bgDark;
-      SystemUI.setBackgroundColorAsync(bg).finally(() =>
-        SplashScreen.hideAsync()
-      );
-    }
+    if (!loaded) return;
+    const bg = scheme === "dark" ? Colors.dark.bgDark : Colors.light.bgDark;
+    void (async () => {
+      await SystemUI.setBackgroundColorAsync(bg).catch(console.error);
+      await SplashScreen.hideAsync().catch(console.error);
+    })();
   }, [loaded, scheme]);
 
-  if (!loaded) return null;
+  if (!loaded && !error) return null;
 
   return (
     <SafeAreaProvider>

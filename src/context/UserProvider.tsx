@@ -1,4 +1,3 @@
-// src/context/UserProvider.tsx
 import React, {
   createContext,
   useCallback,
@@ -34,7 +33,6 @@ export function UserProvider({ children }: React.PropsWithChildren) {
   const [user, setUserState] = useState<DTOUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Hydration aus AsyncStorage
   useEffect(() => {
     (async () => {
       try {
@@ -59,7 +57,7 @@ export function UserProvider({ children }: React.PropsWithChildren) {
 
   const setUser = useCallback(
     async (u: DTOUser) => {
-      setUserState(u); // -> triggert Re-Render aller Consumers
+      setUserState(u);
       await persist(u);
     },
     [persist]
@@ -67,14 +65,11 @@ export function UserProvider({ children }: React.PropsWithChildren) {
 
   const updateUser = useCallback(
     async (patch: Partial<DTOUser>) => {
-      setUserState((prev) => {
-        const next = { ...(prev ?? ({} as DTOUser)), ...patch } as DTOUser;
-        // direkt persistieren (ohne auf setState-Flush zu warten)
-        persist(next).catch(() => {});
-        return next;
-      });
+      const next = { ...(user ?? ({} as DTOUser)), ...patch } as DTOUser;
+      setUserState(next);
+      await persist(next);
     },
-    [persist]
+    [user, persist]
   );
 
   const clearUser = useCallback(async () => {

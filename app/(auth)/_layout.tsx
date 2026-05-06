@@ -7,7 +7,7 @@ import Colors from "@/constants/StyleVariables";
 export default function AuthGroupLayout() {
   const { isAuthenticated, isLoading } = useSession();
   const scheme = useColorScheme();
-  const theme = Colors[scheme ?? "light"];
+  const theme = Colors[scheme === "dark" ? "dark" : "light"];
 
   if (isLoading) {
     return (

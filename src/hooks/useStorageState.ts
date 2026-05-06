@@ -27,10 +27,10 @@ export function useStorageState<T = unknown>(key: string) {
       try {
         if (value === null || value === undefined) {
           await AsyncStorage.removeItem(key);
-          setState(([_, __]) => [false, null]);
+          setState([false, null]);
         } else {
           await AsyncStorage.setItem(key, JSON.stringify(value));
-          setState(([_, __]) => [false, value]);
+          setState([false, value]);
         }
       } catch (e) {
         console.error(`[useStorageState] write error for "${key}":`, e);

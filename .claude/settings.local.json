@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:expo.dev)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(npm list *)",
+      "Bash(Rename-Item *)",
+      "PowerShell(Rename-Item *)",
+      "Bash(npx tsc *)",
+      "Bash(npx expo *)"
+    ]
+  }
+}

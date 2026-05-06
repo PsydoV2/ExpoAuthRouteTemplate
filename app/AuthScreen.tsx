@@ -1,95 +1,99 @@
-import { Button, ActivityIndicator } from "react-native";
 import { useSession } from "@/src/context/AuthContext";
-import { Redirect, router } from "expo-router";
-import { Text, View } from "@/components/Themed";
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { useToast } from "@/src/context/ToastProvider";
-import { useApi } from "@/src/hooks/useAPI";
-import { API_ROUTE_LOGIN } from "@/constants/APIRoutes";
-import { DTOUser } from "@/src/types/DTOUser";
-import { useUser } from "@/src/context/UserProvider";
-import { useState } from "react";
+import Colors from "@/constants/StyleVariables";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Redirect } from "expo-router";
+import {
+  ActivityIndicator,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { useColorScheme } from "react-native";
 
 export default function AuthScreen() {
-  const { isAuthenticated, isLoading, signIn, signOut } = useSession();
+  const { isAuthenticated, isLoading, signIn } = useSession();
   const { showToast } = useToast();
-  const { callAuthentication } = useApi();
-  const { setUser } = useUser();
-  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+  const scheme = useColorScheme();
+  const t = Colors[scheme === "dark" ? "dark" : "light"];
 
-  // Während Storage hydriert
   if (isLoading) {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ActivityIndicator />
+      <View style={[styles.center, { backgroundColor: t.bgDark }]}>
+        <ActivityIndicator size="large" color={t.primary} />
       </View>
     );
   }
 
-  // Eingeloggt? Nie auf AuthScreen bleiben → sofort weiter
   if (isAuthenticated) {
     return <Redirect href="/(auth)/(tabs)" />;
   }
 
-  const handleLogin = async () => {
-    await signIn("demo-token");
-    router.replace("/(auth)/(tabs)");
-    showToast("Authenticated", "success");
-    return;
-
-    // Example login flow:
-
-    setIsLoadingSubmit(true);
-
-    try {
-      const body = {};
-
-      const response = await callAuthentication(API_ROUTE_LOGIN, "POST", body);
-
-      if (response) {
-        type LoginResponse = DTOUser & { token: string };
-        const data: LoginResponse = await response;
-
-        if (!data.token) {
-          const msg = "No JWT-Token returned!";
-          showToast(msg, "error", 5000);
-          return;
-        }
-
-        await signIn(data.token);
-
-        const user: DTOUser = {
-          id: data.id,
-          username: data.username,
-          email: data.email,
-        };
-        setUser(user);
-
-        router.replace("/(auth)/(tabs)");
-      }
-    } catch (e) {
-      showToast(`${e}`, "error", 5000);
-    } finally {
-      setIsLoadingSubmit(false);
-    }
-  };
-
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 12,
-      }}
-    >
-      <Text style={{ fontSize: 20, fontWeight: "700", marginBottom: 18 }}>
-        Auth Screen
-      </Text>
-      <EditScreenInfo path="app/AuthScreen.tsx"></EditScreenInfo>
-      <Button title="Sign in" onPress={handleLogin} />
-      {/* Optional: zum Testen eines „falschen“ Zustands */}
-      {/* <Button title="Force sign out" onPress={() => signOut()} /> */}
+    <View style={[styles.root, { backgroundColor: t.bgDark }]}>
+      <View style={[styles.content, Platform.OS === "web" ? styles.contentWeb : null]}>
+
+        {/* Logo */}
+        <View style={styles.logoArea}>
+          <View style={[styles.iconCircle, { backgroundColor: t.primary + "22" }]}>
+            <FontAwesome name="lock" size={26} color={t.primary} />
+          </View>
+          <Text style={[styles.appName, { color: t.text }]}>MyApp</Text>
+          <Text style={[styles.tagline, { color: t.textMuted }]}>
+            Sign in to continue
+          </Text>
+        </View>
+
+        {/* Card */}
+        <View style={[styles.card, { backgroundColor: t.bgLight, borderColor: t.border }]}>
+          <Pressable
+            style={({ pressed }) => [
+              styles.primaryBtn,
+              { backgroundColor: t.primary, opacity: pressed ? 0.85 : 1 },
+            ]}
+            onPress={async () => {
+              await signIn("demo-token");
+              showToast("Authenticated", "success");
+            }}
+          >
+            <Text style={styles.primaryBtnText}>Sign in (demo)</Text>
+          </Pressable>
+
+          <View style={[styles.divider, { backgroundColor: t.border }]} />
+
+          <Text style={[styles.hint, { color: t.textMuted }]}>
+            Replace with your auth logic in{"\n"}
+            <Text style={{ color: t.primary, fontWeight: "500" }}>
+              app/AuthScreen.tsx
+            </Text>
+          </Text>
+        </View>
+
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1, alignItems: "center", justifyContent: "center" },
+  center: { flex: 1, alignItems: "center", justifyContent: "center" },
+  content: { width: "100%", padding: 28, gap: 28 },
+  contentWeb: { maxWidth: 400 },
+  logoArea: { alignItems: "center", gap: 12 },
+  iconCircle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  appName: { fontSize: 28, fontWeight: "700", letterSpacing: -0.5 },
+  tagline: { fontSize: 15 },
+  card: { borderRadius: 16, borderWidth: 1, padding: 20, gap: 16 },
+  primaryBtn: { borderRadius: 12, paddingVertical: 14, alignItems: "center" },
+  primaryBtnText: { color: "#fff", fontSize: 16, fontWeight: "600" },
+  divider: { height: 1 },
+  hint: { fontSize: 13, textAlign: "center", lineHeight: 20 },
+});

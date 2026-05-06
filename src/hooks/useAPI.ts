@@ -7,27 +7,34 @@ export function useApi() {
   const { session } = useSession();
   const { showToast } = useToast();
 
-  async function callApi<T = any>(
+  async function request<T = unknown>(
     route: string,
-    method: HttpMethod = "GET",
-    body?: any
+    method: HttpMethod,
+    body: unknown,
+    authenticated: boolean
   ): Promise<T | null> {
     try {
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (authenticated && session) {
+        headers["Authorization"] = `Bearer ${session}`;
+      }
+
       const response = await fetch(route, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session}`,
-        },
-        ...(method !== "GET" && body ? { body: JSON.stringify(body) } : {}),
+        headers,
+        ...(method !== "GET" && body !== undefined ? { body: JSON.stringify(body) } : {}),
       });
 
-      const data = await response.json().catch(() => null);
+      const data: unknown = await response.json().catch(() => null);
 
       if (!response.ok) {
-        const msg = data?.message ?? `Request failed (${response.status})`;
+        const msg =
+          (data as Record<string, unknown> | null)?.message ??
+          `Request failed (${response.status})`;
         console.error(msg);
-        showToast(msg, "error", 5000);
+        showToast(`${msg}`, "error", 5000);
         return null;
       }
 
@@ -39,36 +46,10 @@ export function useApi() {
     }
   }
 
-  async function callAuthentication<T = any>(
-    route: string,
-    method: HttpMethod = "GET",
-    body?: any
-  ): Promise<T | null> {
-    try {
-      const response = await fetch(route, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        ...(method !== "GET" && body ? { body: JSON.stringify(body) } : {}),
-      });
-
-      const data = await response.json().catch(() => null);
-
-      if (!response.ok) {
-        const msg = data?.message ?? `Request failed (${response.status})`;
-        console.error(msg);
-        showToast(msg, "error", 5000);
-        return null;
-      }
-
-      return data as T;
-    } catch (error) {
-      console.error(error);
-      showToast(`${error}`, "error", 5000);
-      return null;
-    }
-  }
-
-  return { callApi, callAuthentication };
+  return {
+    callApi: <T = unknown>(route: string, method: HttpMethod = "GET", body?: unknown) =>
+      request<T>(route, method, body, true),
+    callAuthentication: <T = unknown>(route: string, method: HttpMethod = "GET", body?: unknown) =>
+      request<T>(route, method, body, false),
+  };
 }

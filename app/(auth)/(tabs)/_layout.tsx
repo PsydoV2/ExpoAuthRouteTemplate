@@ -1,4 +1,4 @@
-import React from "react";
+import { type ComponentProps } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
 import { Pressable } from "react-native";
@@ -6,7 +6,7 @@ import Colors from "@/constants/StyleVariables";
 import { useColorScheme } from "react-native";
 
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
+  name: ComponentProps<typeof FontAwesome>["name"];
   color: string;
 }) {
   return <FontAwesome size={26} style={{ marginBottom: -2 }} {...props} />;
@@ -14,7 +14,7 @@ function TabBarIcon(props: {
 
 export default function TabsLayout() {
   const scheme = useColorScheme();
-  const theme = Colors[scheme ?? "light"];
+  const theme = Colors[scheme === "dark" ? "dark" : "light"];
 
   return (
     <Tabs

@@ -1,5 +1,5 @@
 import Colors from "@/constants/StyleVariables";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Animated, StyleSheet, Text, View, useColorScheme } from "react-native";
 
 type ToastProps = {
@@ -18,7 +18,7 @@ export default function Toast({
   const [visible, setVisible] = useState(true);
   const translateY = useRef(new Animated.Value(-100)).current;
   const colorScheme = useColorScheme();
-  const colorPalette = colorScheme == "dark" ? Colors.dark : Colors.light;
+  const colorPalette = colorScheme === "dark" ? Colors.dark : Colors.light;
 
   const bgColor =
     type === "success"
@@ -45,7 +45,7 @@ export default function Toast({
     }, duration);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [duration, translateY, onHide]);
 
   if (!visible) return null;
 
