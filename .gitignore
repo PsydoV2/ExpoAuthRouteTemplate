@@ -28,7 +28,8 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
+# local env files (commit .env.example instead)
+.env
 .env*.local
 
 # typescript
@@ -40,7 +41,6 @@ yarn-error.*
 expo-env.d.ts
 # @end expo-cli
 
-package-lock.json
 .vscode
 .idea
 .claude

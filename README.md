@@ -61,7 +61,7 @@ ExpoAuthRouteTemplate/
 │
 ├── constants/
 │   ├── StyleVariables.ts         # Full color palette — light + dark
-│   └── APIRoutes.ts              # API_URL with DEV_LOCAL toggle
+│   └── APIRoutes.ts              # API_URL, read from EXPO_PUBLIC_API_URL
 │
 ├── app.json                      # plugins (incl. splash config), typedRoutes
 ├── tsconfig.json                 # strict, paths (@/), moduleResolution: Bundler
@@ -85,7 +85,24 @@ cd ExpoAuthRouteTemplate
 npm install
 ```
 
-### 3. Run the app
+### 3. Configure your environment
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and set `EXPO_PUBLIC_API_URL` to your backend. See [`.env.example`](./.env.example).
+
+### 4. Rename the app for your project
+
+This template ships with generic placeholder names — replace them before you go further:
+
+- `app.json`: `expo.name`, `expo.slug`, `expo.scheme`
+- `package.json`: `name`
+- `app/_layout.tsx` / `app/AuthScreen.tsx`: the `"MyApp"` display name
+- App icons and splash image in `assets/images/` (referenced from `app.json`)
+
+### 5. Run the app
 
 ```bash
 npx expo start
@@ -111,7 +128,7 @@ const handleLogin = async () => {
 };
 ```
 
-Configure your API URL in `constants/APIRoutes.ts`.
+Configure your API URL via `EXPO_PUBLIC_API_URL` in `.env` (see [`constants/APIRoutes.ts`](./constants/APIRoutes.ts)).
 
 ---
 
