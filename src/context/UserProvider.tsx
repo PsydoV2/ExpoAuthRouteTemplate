@@ -12,15 +12,15 @@ import { DTOUser } from "../types/DTOUser";
 type UserContextValue = {
   user: DTOUser | null;
   isLoading: boolean;
-  /** Setzt den kompletten User (z. B. nach Login) und speichert ihn. */
+  /** Sets the full user (e.g. after login) and persists it. */
   setUser: (u: DTOUser) => Promise<void>;
-  /** Aktualisiert nur die angegebenen Felder (merge) und speichert. */
+  /** Updates only the given fields (merge) and persists the result. */
   updateUser: (patch: Partial<DTOUser>) => Promise<void>;
-  /** Löscht den gespeicherten User (Logout). */
+  /** Clears the persisted user (logout). */
   clearUser: () => Promise<void>;
 };
 
-const STORAGE_KEY = "beerhunter_user";
+const STORAGE_KEY = "user";
 const UserContext = createContext<UserContextValue | undefined>(undefined);
 
 export function useUser() {

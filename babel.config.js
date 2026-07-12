@@ -1,14 +1,14 @@
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: ["babel-preset-expo"], // enthält expo-router bereits
+    presets: ["babel-preset-expo"], // already includes expo-router support
     plugins: [
-      // Pfadalias (optional, wenn du "@/..." verwendest)
+      // Path alias support for "@/..." imports
       [
         "module-resolver",
         {
           root: ["./"],
-          alias: { "@": "./" }, // oder './src' falls du auf src mappen willst
+          alias: { "@": "./" }, // or './src' if you prefer mapping to src
           extensions: [
             ".ios.js",
             ".android.js",
@@ -23,8 +23,8 @@ module.exports = function (api) {
           ],
         },
       ],
-      // Falls du Reanimated nutzt: UNBEDINGT als letztes aktivieren
-      // 'react-native-reanimated/plugin',
+      // No explicit Reanimated/Worklets plugin needed: babel-preset-expo
+      // auto-detects react-native-worklets and applies its plugin.
     ],
   };
 };

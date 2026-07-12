@@ -65,18 +65,24 @@ export function Card(props: ViewProps) {
   );
 }
 
-/** Full-width flex container constrained to maxWidth 600 on web. */
+type ScreenContentProps = ViewProps & {
+  /** Max content width applied on web only. @default 600 */
+  maxWidth?: number;
+};
+
+/** Full-width flex container constrained to `maxWidth` on web. */
 export function ScreenContent({
   style,
   lightColor: _lc,
   darkColor: _dc,
+  maxWidth = 600,
   ...props
-}: ViewProps) {
+}: ScreenContentProps) {
   return (
     <DefaultView
       style={[
         themedStyles.screenContent,
-        Platform.OS === "web" ? themedStyles.screenContentWeb : null,
+        Platform.OS === "web" ? { maxWidth, alignSelf: "center" as const } : null,
         style,
       ]}
       {...props}
@@ -95,9 +101,5 @@ const themedStyles = StyleSheet.create({
     width: "100%",
     padding: 20,
     gap: 16,
-  },
-  screenContentWeb: {
-    maxWidth: 600,
-    alignSelf: "center",
   },
 });

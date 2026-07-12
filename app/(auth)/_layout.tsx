@@ -1,7 +1,7 @@
 import { Redirect, Stack } from "expo-router";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, View , useColorScheme } from "react-native";
 import { useSession } from "@/src/context/AuthContext";
-import { useColorScheme } from "react-native";
+
 import Colors from "@/constants/StyleVariables";
 
 export default function AuthGroupLayout() {

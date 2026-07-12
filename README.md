@@ -22,7 +22,7 @@ A modern, lightweight **Expo starter template** featuring **authentication**, **
 - 🍞 **Toast Notifications** — animated overlay with success / error / info variants
 - 🌐 **API Hooks** — `useApi` (authenticated) and `callAuthentication` (public) fetch wrappers
 - 👤 **User Context** — `UserProvider` with AsyncStorage persistence and partial update support
-- 📱 **New Architecture** — React Native 0.83 with mandatory New Arch (no legacy bridge)
+- 📱 **New Architecture** — React Native 0.86 with mandatory New Arch (no legacy bridge)
 - 💻 **TypeScript Strict Mode** — `noUncheckedIndexedAccess`, `noImplicitOverride`, path aliases
 
 ---
@@ -57,15 +57,13 @@ ExpoAuthRouteTemplate/
 │
 ├── components/
 │   ├── Themed.tsx                # Text, View, Card, ScreenContent (web max-width aware)
-│   ├── Toast.tsx                 # Animated slide-in toast
-│   ├── StyledText.tsx            # MonoText (SpaceMono)
-│   └── EditScreenInfo.tsx        # Dev helper — shows file path
+│   └── Toast.tsx                 # Animated slide-in toast
 │
 ├── constants/
 │   ├── StyleVariables.ts         # Full color palette — light + dark
 │   └── APIRoutes.ts              # API_URL with DEV_LOCAL toggle
 │
-├── app.json                      # newArchEnabled, plugins, typedRoutes
+├── app.json                      # plugins (incl. splash config), typedRoutes
 ├── tsconfig.json                 # strict, paths (@/), moduleResolution: Bundler
 └── babel.config.js               # module-resolver for @/ alias
 ```
@@ -121,11 +119,11 @@ Configure your API URL in `constants/APIRoutes.ts`.
 
 | Layer         | Technology                               |
 | ------------- | ---------------------------------------- |
-| Framework     | **Expo SDK 55**                          |
-| Navigation    | **expo-router v7** (`~55.0.x`)           |
-| Runtime       | **React 19.2 · React Native 0.83**       |
-| Architecture  | **New Architecture** (mandatory in SDK 55) |
-| Language      | **TypeScript 5.9** (strict)              |
+| Framework     | **Expo SDK 57**                          |
+| Navigation    | **expo-router v7** (`~57.0.x`)           |
+| Runtime       | **React 19.2 · React Native 0.86**       |
+| Architecture  | **New Architecture** (mandatory)         |
+| Language      | **TypeScript 6.0** (strict)              |
 | UI / Theme    | **React Native + Themed Components**     |
 | State / Auth  | **React Context + AsyncStorage**         |
 | Haptics       | **expo-haptics**                         |

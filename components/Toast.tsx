@@ -1,6 +1,6 @@
 import Colors from "@/constants/StyleVariables";
-import { useEffect, useRef, useState } from "react";
-import { Animated, StyleSheet, Text, View, useColorScheme } from "react-native";
+import { useEffect, useState } from "react";
+import { Animated, StyleSheet, Text, useColorScheme } from "react-native";
 
 type ToastProps = {
   message: string;
@@ -16,7 +16,7 @@ export default function Toast({
   onHide,
 }: ToastProps) {
   const [visible, setVisible] = useState(true);
-  const translateY = useRef(new Animated.Value(-100)).current;
+  const [translateY] = useState(() => new Animated.Value(-100));
   const colorScheme = useColorScheme();
   const colorPalette = colorScheme === "dark" ? Colors.dark : Colors.light;
 

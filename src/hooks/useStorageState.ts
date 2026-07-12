@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-/** Persistenter State Hook: [[isLoading, value], setValue] */
+/** Persistent state hook backed by AsyncStorage: [[isLoading, value], setValue] */
 export function useStorageState<T = unknown>(key: string) {
   const [state, setState] = useState<[boolean, T | null]>([true, null]);
 

@@ -8,10 +8,10 @@ import { useColorScheme } from "react-native";
 import {
   DarkTheme,
   DefaultTheme,
+  Slot,
   ThemeProvider,
-} from "@react-navigation/native";
+} from "expo-router";
 import { SessionProvider } from "@/src/context/AuthContext";
-import { Slot } from "expo-router";
 import Colors from "@/constants/StyleVariables";
 import { UserProvider } from "@/src/context/UserProvider";
 import { ToastProvider } from "@/src/context/ToastProvider";

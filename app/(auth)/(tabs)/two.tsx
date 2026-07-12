@@ -1,8 +1,7 @@
-import Colors from "@/constants/StyleVariables";
+import { Card, Text, useThemeColor } from "@/components/Themed";
 import Constants from "expo-constants";
 import * as Linking from "expo-linking";
-import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { useColorScheme } from "react-native";
+import { Platform, Pressable, ScrollView, StyleSheet, View } from "react-native";
 
 const APP_NAME = Constants.expoConfig?.name ?? "myapp";
 const APP_VERSION = Constants.expoConfig?.version ?? "1.0.0";
@@ -14,8 +13,10 @@ const LINKS = [
 ];
 
 export default function Second() {
-  const scheme = useColorScheme();
-  const t = Colors[scheme === "dark" ? "dark" : "light"];
+  const bgDark = useThemeColor({}, "bgDark");
+  const textMuted = useThemeColor({}, "textMuted");
+  const border = useThemeColor({}, "border");
+  const primary = useThemeColor({}, "primary");
 
   const infoRows = [
     { label: "App", value: `${APP_NAME} ${APP_VERSION}` },
@@ -24,12 +25,12 @@ export default function Second() {
       label: "OS Version",
       value: Platform.OS === "web" ? "Browser" : String(Platform.Version),
     },
-    { label: "Expo SDK", value: "55" },
+    { label: "Expo SDK", value: Constants.expoConfig?.sdkVersion ?? "unknown" },
   ];
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: t.bgDark }}
+      style={{ flex: 1, backgroundColor: bgDark }}
       contentContainerStyle={[
         styles.container,
         Platform.OS === "web" ? styles.containerWeb : null,
@@ -37,44 +38,44 @@ export default function Second() {
     >
 
       {/* Device Info */}
-      <Text style={[styles.sectionLabel, { color: t.textMuted }]}>
+      <Text style={[styles.sectionLabel, { color: textMuted }]}>
         DEVICE INFO · expo-constants · Platform
       </Text>
-      <View style={[styles.card, { backgroundColor: t.bgLight, borderColor: t.border }]}>
+      <Card style={styles.card}>
         {infoRows.map(({ label, value }, i) => (
           <View
             key={label}
             style={[
               styles.row,
-              i > 0 ? { borderTopWidth: 1, borderTopColor: t.border } : null,
+              i > 0 ? { borderTopWidth: 1, borderTopColor: border } : null,
             ]}
           >
-            <Text style={[styles.rowLabel, { color: t.textMuted }]}>{label}</Text>
-            <Text style={[styles.rowValue, { color: t.text }]}>{value}</Text>
+            <Text style={[styles.rowLabel, { color: textMuted }]}>{label}</Text>
+            <Text style={styles.rowValue}>{value}</Text>
           </View>
         ))}
-      </View>
+      </Card>
 
       {/* Links */}
-      <Text style={[styles.sectionLabel, { color: t.textMuted }]}>
+      <Text style={[styles.sectionLabel, { color: textMuted }]}>
         LINKS · expo-linking
       </Text>
-      <View style={[styles.card, { backgroundColor: t.bgLight, borderColor: t.border }]}>
+      <Card style={styles.card}>
         {LINKS.map(({ label, url }, i) => (
           <Pressable
             key={url}
             style={({ pressed }) => [
               styles.linkRow,
-              i > 0 ? { borderTopWidth: 1, borderTopColor: t.border } : null,
+              i > 0 ? { borderTopWidth: 1, borderTopColor: border } : null,
               { opacity: pressed ? 0.6 : 1 },
             ]}
             onPress={() => Linking.openURL(url)}
           >
-            <Text style={[styles.linkLabel, { color: t.primary }]}>{label}</Text>
-            <Text style={{ color: t.textMuted }}>→</Text>
+            <Text style={[styles.linkLabel, { color: primary }]}>{label}</Text>
+            <Text style={{ color: textMuted }}>→</Text>
           </Pressable>
         ))}
-      </View>
+      </Card>
 
     </ScrollView>
   );
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.8,
     marginBottom: -4,
   },
-  card: { borderRadius: 12, borderWidth: 1, overflow: "hidden" },
+  card: { padding: 0, overflow: "hidden" },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
