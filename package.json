@@ -36,7 +36,7 @@
     "expo-web-browser": "~57.0.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-native": "0.86.0",
+    "react-native": "0.86.3",
     "react-native-gesture-handler": "~2.32.0",
     "react-native-reanimated": "4.5.0",
     "react-native-safe-area-context": "~5.7.0",
@@ -46,6 +46,7 @@
   },
   "overrides": {
     "postcss": "^8.5.10",
+    "ws": "^8.20.2",
     "@tootallnate/once": "3.0.1"
   },
   "devDependencies": {
